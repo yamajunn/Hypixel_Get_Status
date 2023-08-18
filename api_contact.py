@@ -1,7 +1,5 @@
 import requests
-import json
 from pprint import pprint
-import time
 
 def bedwars_status(name):
     try:
@@ -14,15 +12,10 @@ def bedwars_status(name):
             return r.json()
 
         name_link = f"https://api.mojang.com/users/profiles/minecraft/{name}"
-
         uuid = getuuid(name_link)["id"]
-
         API_KEY = ""
-
         uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
 
-        # time.sleep(5)
-        # pprint(getinfo(uuid_link))
         data_dic = getinfo(uuid_link)
         data_list = []
         data = ""
@@ -48,5 +41,7 @@ def bedwars_status(name):
             data += f"Kills : {data_list[5]}, Deaths : {data_list[6]}, KDR : {round(data_list[5] / data_list[6], 2)}\n"
             data += f"Bed Broken : {data_list[7]}, Bed Lost : {data_list[8]}, BBLR : {round(data_list[7] / data_list[8], 2)}\n"
         return data
+
     except KeyError:
         return "name error"
+# print(bedwars_status("A_miton"))
