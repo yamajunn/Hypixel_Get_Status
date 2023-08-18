@@ -37,3 +37,4 @@ def bedwars_status(name):
         return data
     else:
         return "name error"
+    
