@@ -1,14 +1,10 @@
 import requests
 import json
 from pprint import pprint
+import time
 
 def bedwars_status(name):
-    import requests
-    import json
-    from pprint import pprint
-
-    if type(name) == str:
-        
+    try:
         def getuuid(call):
             r = requests.get(call,timeout=10)
             return r.json()
@@ -21,20 +17,36 @@ def bedwars_status(name):
 
         uuid = getuuid(name_link)["id"]
 
-        API_KEY = "a6d34c13-e3f8-423d-b3b0-a59a02ab3d2b"
+        API_KEY = ""
 
         uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
 
-
+        # time.sleep(5)
         # pprint(getinfo(uuid_link))
-
+        data_dic = getinfo(uuid_link)
+        data_list = []
+        data = ""
         if getinfo(uuid_link)["success"] == True:
-            data = ""
-            dic_list = ['wins_bedwars', 'losses_bedwars', 'final_kills_bedwars', 'final_deaths_bedwars', 'kills_bedwars', 'deaths_bedwars', 'beds_broken_bedwars' , 'beds_lost_bedwars']
-            data += "star:" + str(getinfo(uuid_link)["player"]['achievements']['bedwars_level']) + "\n"
+            dic_list = ['wins_bedwars', 
+                        'losses_bedwars', 
+                        'final_kills_bedwars', 
+                        'final_deaths_bedwars', 
+                        'kills_bedwars', 
+                        'deaths_bedwars', 
+                        'beds_broken_bedwars' , 
+                        'beds_lost_bedwars'
+                        ]
+            
+            data_list.append(getinfo(uuid_link)["player"]['achievements']['bedwars_level'])
             for item in dic_list:
-                data += f"{item}:" + str(getinfo(uuid_link)["player"]["stats"]["Bedwars"][item]) + "\n"
+                data_list.append(data_dic["player"]["stats"]["Bedwars"][item])
+            
+            data += f"Name : {name}\n"
+            data += f"Star : {data_list[0]}\n"
+            data += f"Wins : {data_list[1]}, Losses : {data_list[2]}, WLR : {round(data_list[1] / data_list[2], 2)}\n"
+            data += f"Final Kills : {data_list[3]}, Final Deaths : {data_list[4]}, FKDR : {round(data_list[3] / data_list[4], 2)}\n"
+            data += f"Kills : {data_list[5]}, Deaths : {data_list[6]}, KDR : {round(data_list[5] / data_list[6], 2)}\n"
+            data += f"Bed Broken : {data_list[7]}, Bed Lost : {data_list[8]}, BBLR : {round(data_list[7] / data_list[8], 2)}\n"
         return data
-    else:
+    except KeyError:
         return "name error"
-    
