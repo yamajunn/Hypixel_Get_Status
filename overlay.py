@@ -3,6 +3,9 @@ from overlay_status import bedwars_status
 import tkinter
 from tkinter import messagebox
 from overlay_app import overlay_app
+import json
+#[01:02:03] [Client thread/INFO]: [CHAT] ONLINE: 2chanfy, Starcity200415, Cwaminator, A_miton, YaBoyNOOBI
+
 
 def who(s):
     l = s.split("\n")
@@ -12,27 +15,30 @@ def who(s):
             who_list = item[48:].split(", ")
     return who_list
 
-def update():
-    s = f.read()
-    who_list = who(s)
-    data = ""
+def save_who(who_list, data_dic):
+    with open("save_who_list.json") as j:
+            j_update = json.load(j)
+            j_update["who_list"] = who_list
+            j_update["player_data"] = data_dic
+    with open("save_who_list.json", "w") as j:
+        json.dump(j_update, j)
 
-    if len(who_list) != 0:
-        for name in who_list:
-            data += bedwars_status(name)
-        label.configure(text=data)
+def read_who():
+    with open("save_who_list.json") as f:
+        load_f = json.load(f)
+    return load_f
 
-    label.after(1000, update)
-    return who_list
+
 
 path = "/Users/chinq500/Library/Application Support/minecraft/versions/1.8.9/logs/latest.log"
 f = open(path)
+
 root = tkinter.Tk()
 root.title("my overlay")
 root.geometry("480x320")
 
 data = ""
-label = tkinter.Label(root, text=time.time())
+label = tkinter.Label(root, text="none data")
 label.pack(expand=True, anchor=tkinter.NW)
 # update()
 # root.mainloop()
@@ -40,38 +46,26 @@ label.pack(expand=True, anchor=tkinter.NW)
 # label.pack(expand=True)
 # update()
 # root.mainloop()
-count = 0
-while True:
+
+def update():
     s = f.read()
-    who_ = who(s)
-    if len(who_) != 0:
-        break
+    who_list = who(s)
+    if len(who_list) != 0:
+        data = ""
+        data_dic = {}
+        read_dic = read_who()
+        dont_read_list = list(set(who_list) & set(read_dic["who_list"]))
+        for name in who_list:
+            if not name in dont_read_list:
+                get_data = bedwars_status(name)
+                data += get_data
+                data_dic[name] = get_data
+            else:
+                data += read_dic["player_data"][name]
+                data_dic[name] = read_dic["player_data"][name]
+        save_who(who_list, data_dic)
+        label.configure(text=data)
+    label.after(1000, update)
 
-who_list = who_
-while True:
-    return_who_list = update()
-    root.mainloop()
-    if who_list != return_who_list and len(return_who_list) != 0:
-        who_list = return_who_list
-    # time.sleep(1)
-
-# import tkinter as tk
-# from tkinter import ttk
-# import time
-
-# def update():
-#     label.configure(text=time.time())
-#     label.after(10, update)
-
-# root = tk.Tk()
-# root.title("Digital Clock")
-# root.geometry("250x80")
-
-
-# label = ttk.Label(root, text=time.time())
-# label.pack(expand=True)
-
-# label.after(10, update)
-
-# # time.sleep(2)
-# root.mainloop()
+update()
+root.mainloop()
