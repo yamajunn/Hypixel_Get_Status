@@ -13,10 +13,11 @@ def bedwars_status(name):
 
         name_link = f"https://api.mojang.com/users/profiles/minecraft/{name}"
         uuid = getuuid(name_link)["id"]
-        API_KEY = "04092887-a47c-4609-a6aa-433d2407ebf5"
+        API_KEY = "4eaa90b7-e9c2-4ea9-990e-6b4cf0b5853f"
         uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
 
         data_dic = getinfo(uuid_link)
+        # print(data_dic)
         data_list = []
         data = ""
         if data_dic["success"] == True:
@@ -35,18 +36,18 @@ def bedwars_status(name):
                 for item in dic_list:
                     data_list.append(data_dic["player"]["stats"]["Bedwars"][item])
                 
-                data += f"Name : {name}\n"
-                data += f"Star : {data_list[0]}\n"
-                data += f"Wins : {data_list[1]}, Losses : {data_list[2]}, WLR : {round(data_list[1] / data_list[2], 2)}\n"
-                data += f"Final Kills : {data_list[3]}, Final Deaths : {data_list[4]}, FKDR : {round(data_list[3] / data_list[4], 2)}\n"
-                data += f"Kills : {data_list[5]}, Deaths : {data_list[6]}, KDR : {round(data_list[5] / data_list[6], 2)}\n"
-                data += f"Bed Broken : {data_list[7]}, Bed Lost : {data_list[8]}, BBLR : {round(data_list[7] / data_list[8], 2)}\n"
+                data += f"★{data_list[0]},  "
+                data += f"{name},  "
+                data += f"FKDR: {round(data_list[3] / data_list[4], 2)},  "
+                data += f"KDR: {round(data_list[5] / data_list[6], 2)},  "
+                data += f"BBLR: {round(data_list[7] / data_list[8], 2)},  "
+                data += f"WLR: {round(data_list[1] / data_list[2], 2)}\n"
                 return data
             else:
-                return "couldn't get data"
+                return f"error name [{name}]\n"
         else:
-            return "error"
+            return f"Invalid API key\n"
 
     except KeyError:
-        return "name error"
+        return "error\n"
 # print(bedwars_status("A_miton"))

@@ -2,7 +2,7 @@ import discord
 from discord import app_commands
 from api_contact import bedwars_status
 
-TOKEN = ""
+TOKEN = "MTE0MTc0NzExNTAwNjA5OTQ4Ng.GFOISa.AtUF23C5-TuhEDtqejN15Ag18-zkMo1HJnd9-w"
 
 intents = discord.Intents.default()#適当に。
 client = discord.Client(intents=intents)
