@@ -2,16 +2,16 @@ import discord
 from discord import app_commands
 from api_contact import bedwars_status
 
-TOKEN = ""
+TOKEN = "MTE0MTc0NzExNTAwNjA5OTQ4Ng.GFOISa.AtUF23C5-TuhEDtqejN15Ag18-zkMo1HJnd9-w"
 
-intents = discord.Intents.default()#適当に。
+intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
 @client.event
 async def on_ready():
     print("Logged in as hypixel status")
-    await tree.sync()#スラッシュコマンドを同期
+    await tree.sync()
     print("command sync")
 
 @tree.command(name="command",description="コマンドリストを表示")

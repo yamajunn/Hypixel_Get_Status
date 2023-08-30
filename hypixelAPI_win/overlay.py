@@ -5,7 +5,8 @@ from tkinter import messagebox
 from overlay_app import overlay_app
 import json
 #[01:02:03] [Client thread/INFO]: [CHAT] ONLINE: 2chanfy, Starcity200415, Cwaminator, A_miton, YaBoyNOOBI
-
+from os.path import dirname
+import os
 
 def who(s):
     l = s.split("\n")
@@ -30,9 +31,10 @@ def read_who():
 
 
 
-path = "/Users/chinq500/Library/Application Support/minecraft/versions/1.8.9/logs/latest.log"
+# path = "/Users/chinq500/Library/Application Support/minecraft/versions/1.8.9/logs/latest.log"
+path = r"C:/Users/Owner/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log"
 f = open(path)
-
+print(os.path.exists("save_who_list.json"))
 root = tkinter.Tk()
 root.title("my overlay")
 root.geometry("480x320")
