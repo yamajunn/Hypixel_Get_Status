@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 from api_contact import bedwars_status
+from osero import osero
 
 TOKEN = "MTE0MTc0NzExNTAwNjA5OTQ4Ng.GFOISa.AtUF23C5-TuhEDtqejN15Ag18-zkMo1HJnd9-w"
 
@@ -26,5 +27,10 @@ async def test_command(interaction: discord.Interaction,text:str):
 async def test_command(interaction: discord.Interaction,name:str):
     data = bedwars_status(name)
     await interaction.response.send_message(data)
+
+@tree.command(name="osero",description="オセロ")
+async def test_command(interaction: discord.Interaction):
+    board = osero()
+    await interaction.response.send_message(board)
 
 client.run(TOKEN)
