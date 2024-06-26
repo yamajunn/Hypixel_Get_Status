@@ -13,7 +13,7 @@ def bedwars_status(name):
 
         name_link = f"https://api.mojang.com/users/profiles/minecraft/{name}"
         uuid = getuuid(name_link)["id"]
-        API_KEY = "d8a6ad35-da45-440f-9218-c3030fa65ced"
+        API_KEY = ""
         uuid_link = f"https://api.hypixel.net/player?key={API_KEY}&uuid={uuid}"
 
         data_dic = getinfo(uuid_link)
