@@ -30,8 +30,6 @@ def read_who():
     return load_f
 
 
-
-# path = "/Users/chinq500/Library/Application Support/minecraft/versions/1.8.9/logs/latest.log"
 path = r"C:/Users/Owner/AppData/Roaming/.minecraft/logs/blclient/minecraft/latest.log"
 f = open(path)
 print(os.path.exists("save_who_list.json"))
